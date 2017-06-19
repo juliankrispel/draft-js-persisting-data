@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { EditorState, Editor } from 'draft-js';
+import { EditorState, Editor, convertToRaw } from 'draft-js';
 
 class App extends Component {
   constructor(props) {
@@ -10,6 +10,8 @@ class App extends Component {
   }
 
   onChange = (editorState) => {
+    const contentState = editorState.getCurrentContent();
+    console.log('content state', convertToRaw(contentState));
     this.setState({
       editorState,
     });
