@@ -20,7 +20,7 @@ app.use(bodyParser.json())
 
 app.get('/content', (req, res) => {
   storage.getItem('content', (err, val) => {
-    res.json(val || {});
+    res.json(val || null);
   });
 });
 
