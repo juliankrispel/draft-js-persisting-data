@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { EditorState, Editor, convertToRaw, convertFromRaw } from 'draft-js';
+import debounce from 'lodash/debounce';
 
 class App extends Component {
   constructor(props) {
@@ -7,7 +8,7 @@ class App extends Component {
     this.state = { };
   }
 
-  saveContent = (content) => {
+  saveContent = debounce((content) => {
     fetch('/content', {
       method: 'POST',
       body: JSON.stringify({
@@ -17,7 +18,7 @@ class App extends Component {
         'Content-Type': 'application/json'
       })
     })
-  }
+  }, 1000);
 
   onChange = (editorState) => {
     const contentState = editorState.getCurrentContent();
