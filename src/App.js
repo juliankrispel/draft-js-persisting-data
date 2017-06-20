@@ -5,18 +5,18 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = { };
-
-    const content = window.localStorage.getItem('content');
-
-    if (content) {
-      this.state.editorState = EditorState.createWithContent(convertFromRaw(JSON.parse(content)));
-    } else {
-      this.state.editorState = EditorState.createEmpty();
-    }
   }
 
   saveContent = (content) => {
-    window.localStorage.setItem('content', JSON.stringify(convertToRaw(content)));
+    fetch('/content', {
+      method: 'POST',
+      body: JSON.stringify({
+        content: convertToRaw(content),
+      }),
+      headers: new Headers({
+        'Content-Type': 'application/json'
+      })
+    })
   }
 
   onChange = (editorState) => {
@@ -27,7 +27,23 @@ class App extends Component {
     });
   }
 
+  componentDidMount() {
+    fetch('/content').then(val => val.json())
+    .then(rawContent => {
+      if (rawContent) {
+        this.setState({ editorState: EditorState.createWithContent(convertFromRaw(rawContent)) })
+      } else {
+        this.setState({ editorState: EditorState.createEmpty() });
+      }
+    });
+  }
+
   render() {
+    if (!this.state.editorState) {
+      return (
+        <h3 className="loading">Loading...</h3>
+      );
+    }
     return (
       <div>
         <Editor

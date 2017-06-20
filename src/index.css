@@ -16,3 +16,9 @@ body {
   left: 2em;
   bottom: 2em;
 }
+
+.loading{
+  padding: 2em;
+  font-size: 3em;
+  text-align: center;
+}
