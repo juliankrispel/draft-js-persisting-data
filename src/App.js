@@ -1,17 +1,27 @@
 import React, { Component } from 'react';
-import { EditorState, Editor, convertToRaw } from 'draft-js';
+import { EditorState, Editor, convertToRaw, convertFromRaw } from 'draft-js';
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      editorState: EditorState.createEmpty(),
+    this.state = { };
+
+    const content = window.localStorage.getItem('content');
+
+    if (content) {
+      this.state.editorState = EditorState.createWithContent(convertFromRaw(JSON.parse(content)));
+    } else {
+      this.state.editorState = EditorState.createEmpty();
     }
+  }
+
+  saveContent = (content) => {
+    window.localStorage.setItem('content', JSON.stringify(convertToRaw(content)));
   }
 
   onChange = (editorState) => {
     const contentState = editorState.getCurrentContent();
-    console.log('content state', convertToRaw(contentState));
+    this.saveContent(contentState);
     this.setState({
       editorState,
     });
