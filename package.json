@@ -1,6 +1,7 @@
 {
-  "name": "draft-js-barebones-boilerplate",
-  "author": "Julian Krispel",
+  "name": "draft-js-persisting-data",
+  "author": "Julian Krispel - @juliandoesstuff",
+  "website": "http://reactrocket.com",
   "license": "MIT",
   "version": "0.1.0",
   "private": true,
